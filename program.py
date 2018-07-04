@@ -1,3 +1,5 @@
-hi=[1, 2, 3]
-histr=str(hi)
-print(histr)
+pika = {'bear':True,'pika':True}
+for x in pika.items():
+    print(x)
+
+    

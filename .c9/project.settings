@@ -1,4 +1,10 @@
 {
+    "build": {
+        "@saveall": true
+    },
+    "instance": {
+        "@automaticShutdown": "30"
+    },
     "language": {
         "tern_defs": {
             "json()": {
@@ -17,7 +23,15 @@
     "run": {
         "configs": {
             "@inited": "true",
-            "json()": {}
+            "json()": {
+                "converter.py": {
+                    "command": "converter.py",
+                    "debug": false,
+                    "name": "converter.py",
+                    "runner": "Python 3",
+                    "toolbar": true
+                }
+            }
         }
     },
     "welcome": {
