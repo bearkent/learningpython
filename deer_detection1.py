@@ -1,0 +1,27 @@
+from imageai.Detection import ObjectDetection
+import os
+import glob
+
+execution_path = os.getcwd()
+
+detector = ObjectDetection()
+detector.setModelTypeAsRetinaNet()
+detector.setModelPath( os.path.join(execution_path , "resnet50_coco_best_v2.0.1.h5"))
+detector.loadModel()
+
+def image_detection(detector, input_image, out_image):
+    detections = detector.detectObjectsFromImage(input_image=input_image, output_image_path=out_image)
+
+    for eachObject in detections:
+        print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
+    
+    
+images = glob.glob("/home/ec2-user/environment/pictures/deer/*.jpg")
+
+for image in images:
+    newimage = image.replace(".jpg", ".new.jpg")
+    print(image, newimage)    
+
+
+    image_detection(detector, image, newimage)  
+    
