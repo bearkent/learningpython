@@ -25,7 +25,7 @@ images = glob.glob(execution_path+"/pictures/deer/*.jpg")
 print("images=", images)
 
 for image in images:
-    newimage = image.replace(".jpg", ".new.jpg")
+    newimage = image.replace(".jpg", ".new.jpg").replace('/deer/','/deer-new/')
     print(image, newimage)    
 
     image_detection(detector, image, newimage)  
