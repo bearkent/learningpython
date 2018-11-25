@@ -1,6 +1,7 @@
 #!/bin/bash
 
-PIP=pip-3.6
+#PIP=pip-3.6
+PIP=pip3
 
 ${PIP} install tensorflow
 ${PIP} install numpy
