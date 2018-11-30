@@ -20,12 +20,12 @@ def image_detection(detector, input_image, out_image):
         print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
     
     
-images = glob.glob(execution_path+"/pictures/deer/*.jp*g")
+images = glob.glob(execution_path+"/pictures/not_deer/*.jp*g")
 
 print("images=", images)
 
 for image in images:
-    newimage = image.replace('/deer/','/deer-new/')
+    newimage = image.replace('/not_deer/','/not_deer-new/')
     print(image, newimage)    
 
     image_detection(detector, image, newimage)  
