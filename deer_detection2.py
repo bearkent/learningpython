@@ -19,15 +19,18 @@ def image_detection(detector, input_image, out_image):
     for eachObject in detections:
         print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
     
+
+def image_analyzer():
     
-images = glob.glob(execution_path+"/pictures/not_deer/*.jp*g")
+    images = glob.glob(execution_path+"/pictures/not_deer/*.jp*g")
 
-print("images=", images)
+    print("images=", images)
 
-for image in images:
-    newimage = image.replace('/not_deer/','/not_deer-new/')
-    print(image, newimage)    
+    for image in images:
+        newimage = image.replace('/not_deer/','/not_deer-new/')
+        print(image, newimage)    
 
-    image_detection(detector, image, newimage)  
-    print("did image detection: image=", image)
+        image_detection(detector, image, newimage)  
+        print("did image detection: image=", image)
     
+image_analyzer()

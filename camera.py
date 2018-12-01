@@ -3,12 +3,13 @@ from time import sleep
 
 camera = PiCamera()
 
-camera.start_preview
-sleep(5)
-camera.capture('./image.jpg')
-camera.stop_preview
+def capture_image(file):
+    camera.start_preview
+    sleep(2)
+    camera.capture(file)
+    camera.stop_preview
 
-
+capture_image('./image.jpg')
 
 
 
