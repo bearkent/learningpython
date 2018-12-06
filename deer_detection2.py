@@ -1,6 +1,19 @@
 from imageai.Detection import ObjectDetection
 import os
 import glob
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+
+def capture_image(file):
+    camera.start_preview
+    sleep(2)
+    camera.capture(file)
+    camera.stop_preview
+
+ #capture_image('./image.jpg')
+
 
 execution_path = os.getcwd()
 
@@ -15,10 +28,16 @@ print("detector set up")
 
 def image_detection(detector, input_image, out_image):
     detections = detector.detectObjectsFromImage(input_image=input_image, output_image_path=out_image)
+    is_deer = False
+    deer = {'sheep','cow','giraffe'}
 
     for eachObject in detections:
         print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
-    
+        name = eachObject["name"]
+        is_deer = is_deer or name in deer
+
+    print('is_deer=',is_deer)
+    return is_deer
 
 def image_analyzer():
     
@@ -32,5 +51,11 @@ def image_analyzer():
 
         image_detection(detector, image, newimage)  
         print("did image detection: image=", image)
-    
-image_analyzer()
+
+def run(image,newimage):
+    while True:
+        capture_image(image)
+        is_deer = image_detection(detector,image,newimage)
+        if is_deer:
+            print('SHOOT THE DEER!') 
+   
