@@ -4,20 +4,11 @@ import glob
 from picamera import PiCamera
 from time import sleep
 
-camera = PiCamera()
-
-def capture_image(file):
-    camera.start_preview
-    sleep(2)
-    camera.capture(file)
-    camera.stop_preview
-
- #capture_image('./image.jpg')
-
-
 execution_path = os.getcwd()
 
 print("execution_path=",execution_path)
+
+camera = PiCamera()
 
 detector = ObjectDetection()
 detector.setModelTypeAsRetinaNet()
@@ -26,6 +17,12 @@ detector.loadModel()
 
 print("detector set up")
 
+def capture_image(file):
+    camera.start_preview
+    sleep(2)
+    camera.capture(file)
+    camera.stop_preview
+    
 def image_detection(detector, input_image, out_image):
     detections = detector.detectObjectsFromImage(input_image=input_image, output_image_path=out_image)
     is_deer = False
