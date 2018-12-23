@@ -17,6 +17,9 @@ detector.loadModel()
 
 print("detector set up")
 
+def scare_deer():
+    os.system("mpg321 MountainLionSound.mp3")
+
 def capture_image(file):
     camera.start_preview
     sleep(2)
@@ -26,7 +29,7 @@ def capture_image(file):
 def image_detection(detector, input_image, out_image):
     detections = detector.detectObjectsFromImage(input_image=input_image, output_image_path=out_image)
     is_deer = False
-    deer = {'sheep','cow','giraffe'}
+    deer = {'sheep','cow','giraffe','horse'}
 
     for eachObject in detections:
         print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
@@ -54,5 +57,8 @@ def run(image,newimage):
         capture_image(image)
         is_deer = image_detection(detector,image,newimage)
         if is_deer:
+            scare_deer()
             print('SHOOT THE DEER!') 
-   
+
+directory = "/home/pi/photos/"
+run(directory+"image.jpg", directory+"processed_image.jpg")
