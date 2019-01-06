@@ -22,8 +22,8 @@ light_pin = 26
 sprinkler_pin = 20
 
 gpio.setmode(gpio.BCM)
-gpio.setup(light, gpio.OUT)
-gpio.setup(sprinkler, gpio.OUT)
+gpio.setup(light_pin, gpio.OUT)
+gpio.setup(sprinkler_pin, gpio.OUT)
 
 
 print("detector set up")
@@ -40,15 +40,15 @@ not_deer_pictures   =  "/pictures/not_deer/*.jp*g"
 analyzed_not_deer_pictures  = '/not_deer/', '/not_deer-new/'
 
 gpio.setmode(gpio.BCM)
-gpio.setup(light, gpio.OUT)
-gpio.setup(sprinkler, gpio.OUT)
+gpio.setup(light_pin, gpio.OUT)
+gpio.setup(sprinkler_pin, gpio.OUT)
 
 def shoot_deer():
-    gpio.output(sprinkler, gpio.HIGH)
-    gpio.output(light, gpio.HIGH)
+    gpio.output(sprinkler_pin, gpio.HIGH)
+    gpio.output(light_pin, gpio.HIGH)
     sleep(spray_time)
-    gpio.output(sprinkler, gpio.LOW)
-    gpio.output(light, gpio.LOW)
+    gpio.output(sprinkler_pin, gpio.LOW)
+    gpio.output(light_pin, gpio.LOW)
 
 def capture_image(file):
     camera.start_preview
@@ -71,7 +71,7 @@ def image_detection(detector, input_image, out_image):
 
    #prints if the picture is a deer
 
-    print('is_deer=', is_deer, 'file' = out_image)
+    print('is_deer=', is_deer, ' file=', out_image)
     return is_deer
 
 #unused function
