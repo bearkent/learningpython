@@ -7,7 +7,7 @@ from time import sleep
 
 execution_path = os.getcwd()
 
-print("execution_path=",execution_path)
+print("execution_path=", execution_path)
 
 camera = PiCamera()
 
@@ -16,6 +16,16 @@ detector.setModelTypeAsRetinaNet()
 detector.setModelPath( os.path.join(execution_path , "resnet50_coco_best_v2.0.1.h5"))
 detector.loadModel()
 
+spray_time = 30
+
+light_pin = 26
+sprinkler_pin = 20
+
+gpio.setmode(gpio.BCM)
+gpio.setup(light, gpio.OUT)
+gpio.setup(sprinkler, gpio.OUT)
+
+
 print("detector set up")
 
 def scare_deer():
@@ -23,8 +33,11 @@ def scare_deer():
 
 spray_time = 30
 
-light = 26
-sprinkler = 20
+light_pin = 26
+sprinkler_pin = 20
+
+not_deer_pictures   =  "/pictures/not_deer/*.jp*g"
+analyzed_not_deer_pictures  = '/not_deer/', '/not_deer-new/'
 
 gpio.setmode(gpio.BCM)
 gpio.setup(light, gpio.OUT)
@@ -40,12 +53,15 @@ def shoot_deer():
 def capture_image(file):
     camera.start_preview
     sleep(2)
+    print('Taking a picture')
     camera.capture(file)
     camera.stop_preview
     
 def image_detection(detector, input_image, out_image):
+    print('analyzing photo')
     detections = detector.detectObjectsFromImage(input_image=input_image, output_image_path=out_image)
     is_deer = False
+    #the image detection code said a deer were these animals the most often
     deer = {'sheep','cow','giraffe','horse'}
 
     for eachObject in detections:
@@ -53,26 +69,30 @@ def image_detection(detector, input_image, out_image):
         name = eachObject["name"]
         is_deer = is_deer or name in deer
 
-    print('is_deer=',is_deer)
+   #prints if the picture is a deer
+
+    print('is_deer=', is_deer, 'file' = out_image)
     return is_deer
+
+#unused function
 
 def image_analyzer():
     
-    images = glob.glob(execution_path+"/pictures/not_deer/*.jp*g")
+    images = glob.glob(execution_path+not_deer_pictures)
 
     print("images=", images)
 
     for image in images:
-        newimage = image.replace('/not_deer/','/not_deer-new/')
+        newimage = image.replace(analyzed_not_deer_pictures)
         print(image, newimage)    
 
         image_detection(detector, image, newimage)  
         print("did image detection: image=", image)
 
-def run(image,newimage):
+def run(image, newimage):
     while True:
         capture_image(image)
-        is_deer = image_detection(detector,image,newimage)
+        is_deer = image_detection(detector, image,newimage)
         if is_deer:
             scare_deer()
             sleep(20)
