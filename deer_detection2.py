@@ -1,4 +1,5 @@
 from imageai.Detection import ObjectDetection
+import RPi.GPIO as gpio
 import os
 import glob
 from picamera import PiCamera
@@ -19,6 +20,22 @@ print("detector set up")
 
 def scare_deer():
     os.system("mpg321 MountainLionSound.mp3")
+
+spray_time = 30
+
+light = 26
+sprinkler = 20
+
+gpio.setmode(gpio.BCM)
+gpio.setup(light, gpio.OUT)
+gpio.setup(sprinkler, gpio.OUT)
+
+def shoot_deer():
+    gpio.output(sprinkler, gpio.HIGH)
+    gpio.output(light, gpio.HIGH)
+    sleep(spray_time)
+    gpio.output(sprinkler, gpio.LOW)
+    gpio.output(light, gpio.LOW)
 
 def capture_image(file):
     camera.start_preview
@@ -58,7 +75,14 @@ def run(image,newimage):
         is_deer = image_detection(detector,image,newimage)
         if is_deer:
             scare_deer()
-            print('SHOOT THE DEER!') 
+            sleep(20)
+            shoot_deer() 
+
 
 directory = "/home/pi/photos/"
-run(directory+"image.jpg", directory+"processed_image.jpg")
+
+try:
+    run(directory+"image.jpg", directory+"processed_image.jpg")
+
+finally:
+    gpio.cleanup()
