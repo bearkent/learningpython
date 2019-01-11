@@ -50,13 +50,16 @@ def shoot_deer():
     gpio.output(sprinkler_pin, gpio.LOW)
     gpio.output(light_pin, gpio.LOW)
 
+def capture_images(dir):
+    for i in range(0,101)
+
 def capture_image(file):
     camera.start_preview
     sleep(2)
     print('Taking a picture')
     camera.capture(file)
     camera.stop_preview
-    
+        
 def image_detection(detector, input_image, out_image):
     print('analyzing photo')
     detections = detector.detectObjectsFromImage(input_image=input_image, output_image_path=out_image)
@@ -73,7 +76,7 @@ def image_detection(detector, input_image, out_image):
 
     print('is_deer=', is_deer, ' file=', out_image)
     return is_deer
-
+    print(name)
 #unused function
 
 def image_analyzer():
