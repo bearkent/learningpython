@@ -1,6 +1,7 @@
 from imageai.Detection import ObjectDetection
 import RPi.GPIO as gpio
 import os
+import os.path
 import glob
 from picamera import PiCamera
 from time import sleep
@@ -53,7 +54,7 @@ def shoot_deer():
 
 def capture_images(dir):
     for i in range(0,11):
-        file = dir+"/image_"+i+".jpg"
+        file = dir+"/image_"+str(i)+".jpg"
         capture_image(file)
         sleep(2)
 
@@ -83,14 +84,14 @@ def image_detection(detector, input_image, out_image):
     print(name)
 #unused function
 
-def image_analyzer():
+def image_analyzer(indir, outdir):
     
-    images = glob.glob(execution_path+not_deer_pictures)
+    images = glob.glob(indir + "/*.jp*g")
 
     print("images=", images)
 
     for image in images:
-        newimage = image.replace(analyzed_not_deer_pictures)
+        newimage = outdir + '/' + os.path.basename(image)
         print(image, newimage)    
 
         image_detection(detector, image, newimage)  
@@ -108,22 +109,23 @@ def run(image, newimage):
 
 mode = sys.argv[1]
 
-if mode == "run":
-    print(running)
-    
-    try:
-        run()
-    finally:
+directory = '/home/pi/photos/'
+
+try:
+    if mode == "run":
+        print("running")
+        run(directory+"image.jpg", directory+"processed_image.jpg")
+    elif mode == "images":
+        dir = sys.argv[2]
+        print("Taking pictures Dir="+dir)
+        capture_images(dir)
+    elif mode == "analyze":
+        indir = sys.argv[2]
+        outdir = sys.argv[3]
+        print("Analyzing pictures Indir="+indir + " Outdir=" + outdir)
+        image_analyzer(indir, outdir)
+    else:
+        raise NameError("Unkown mode.  mode=" + mode)
+
+finally:
         gpio.cleanup()
-elif mode == "images":
-    print("Taking pictures")
-    dir = sys.argv[2]
-    capture_images(dir)
-elif mode == "analyze":
-    indir = sys.argv[2]
-    outdir = sys.argv[3]
-    print("Analyzing pictures")
-    image_analyzer(indir, outdir)
-else:
-    raise InputError("Unkown mode")
-    

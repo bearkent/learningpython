@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python3 ./deer_detector.py run
+python3 ./deer_detection2.py run
