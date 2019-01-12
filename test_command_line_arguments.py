@@ -1,0 +1,14 @@
+#!/usr/bin/python
+
+import sys
+
+mode = sys.argv[1]
+
+if mode ==  "run":
+    print("running")
+
+elif mode ==  "stop":
+    print("stopping")
+
+else:
+    print("unknown mode. avalibe modes: run and stop")

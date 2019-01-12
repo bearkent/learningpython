@@ -4,6 +4,7 @@ import os
 import glob
 from picamera import PiCamera
 from time import sleep
+import sys
 
 execution_path = os.getcwd()
 
@@ -51,7 +52,10 @@ def shoot_deer():
     gpio.output(light_pin, gpio.LOW)
 
 def capture_images(dir):
-    for i in range(0,101)
+    for i in range(0,11):
+        file = dir+"/image_"+i+".jpg"
+        capture_image(file)
+        sleep(2)
 
 def capture_image(file):
     camera.start_preview
@@ -102,10 +106,24 @@ def run(image, newimage):
             shoot_deer() 
 
 
-directory = "/home/pi/photos/"
+mode = sys.argv[1]
 
-try:
-    run(directory+"image.jpg", directory+"processed_image.jpg")
-
-finally:
-    gpio.cleanup()
+if mode == "run":
+    print(running)
+    
+    try:
+        run()
+    finally:
+        gpio.cleanup()
+elif mode == "images":
+    print("Taking pictures")
+    dir = sys.argv[2]
+    capture_images(dir)
+elif mode == "analyze":
+    indir = sys.argv[2]
+    outdir = sys.argv[3]
+    print("Analyzing pictures")
+    image_analyzer(indir, outdir)
+else:
+    raise InputError("Unkown mode")
+    
