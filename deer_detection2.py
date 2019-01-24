@@ -18,6 +18,8 @@ detector.setModelTypeAsRetinaNet()
 detector.setModelPath( os.path.join(execution_path , "resnet50_coco_best_v2.0.1.h5"))
 detector.loadModel()
 
+os.system("amixer cset numid=3 1")
+
 spray_time = 30
 
 light_pin = 26
@@ -35,8 +37,8 @@ def scare_deer():
 
 spray_time = 30
 
-light_pin = 26
-sprinkler_pin = 20
+light_pin = 20
+sprinkler_pin = 26
 
 not_deer_pictures   =  "/pictures/not_deer/*.jp*g"
 analyzed_not_deer_pictures  = '/not_deer/', '/not_deer-new/'
