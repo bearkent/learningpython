@@ -72,7 +72,8 @@ def image_detection(detector, input_image, out_image):
     detections = detector.detectObjectsFromImage(input_image=input_image, output_image_path=out_image)
     is_deer = False
     #the image detection code said a deer were these animals the most often
-    deer = {'sheep','cow','giraffe','horse'}
+    #deer = {'sheep','cow','giraffe','horse'}
+    deer = {'sheep','cow','giraffe','horse','dog'}
 
     for eachObject in detections:
         print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
