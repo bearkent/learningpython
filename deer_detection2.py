@@ -127,6 +127,8 @@ try:
         outdir = sys.argv[3]
         print("Analyzing pictures Indir="+indir + " Outdir=" + outdir)
         image_analyzer(indir, outdir)
+    elif mode  == "shoot":
+        shoot_deer()
     else:
         raise NameError("Unkown mode.  mode=" + mode)
 
